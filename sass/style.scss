@@ -1,0 +1,134 @@
+
+$red: #e33;
+$green: #3E4;
+
+$block-color: white;
+$background-color: #C5E0DC;
+$highlight-color: #E08E79;
+$shadow-color: #E08E79;
+$text-color: #774F38;
+
+body, html
+{
+  min-height: 100vh;
+  background-color: $background-color;
+  padding: 0;
+  margin: 0;
+
+  font-family: Inconsolata, Courier;
+  color: $text-color;
+
+  box-sizing: border-box;
+}
+
+.cartoon
+{
+  background-color: $block-color;
+  box-shadow: 1vmin 1vmin 0 0 $shadow-color;
+  // border-radius: 0.5vmin;
+}
+
+#square
+{
+  height: 96vmin;
+  width: 96vmin;
+  padding: 2vmin;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+header
+{
+  @extend .cartoon;
+
+  flex: 0 1 auto;
+  margin: 0 0 2vmin 0;
+
+  text-align: center;
+  vertical-align: middle;
+
+
+  h1
+  {
+    font-size: 6vmin;
+    font-weight: normal;
+    padding: 1vmin;
+    margin: auto auto;
+  }
+}
+
+.graph
+{
+  @extend .cartoon;
+
+  flex: 9 0 auto;
+  margin: 0 0 2vmin 0;
+
+  canvas
+  {
+    background-color: $background-color;
+    box-shadow: inset 1vmin 1vmin 0 $shadow-color;
+    max-width: 92vmin;
+    min-height: 56vmin;
+    margin: 2vmin;
+  }
+
+}
+
+main
+{
+  @extend .cartoon;
+
+  flex: 0 1 auto;
+  margin: 0 0 2vmin 0;
+
+  display: flex;
+  justify-content: center;
+  div
+  {
+    flex: 1 0 auto;
+    font-size: 4vmin;
+    padding: 1vmin;
+    text-align: center;
+  }
+}
+
+.buttons
+{
+  @extend .cartoon;
+
+  flex: 0 1 auto;
+  margin: 0 0 2vmin 0;
+
+  display: flex;
+
+  input
+  {
+    flex: 1 0 auto;
+    margin: 1vmin;
+    font-size: 4vmin;
+    padding: 1vmin;
+    border: 0;
+
+    background-color: $shadow-color;
+    color: $block-color;
+  }
+
+  #sell
+  {
+    margin: 1vmin 1vmin 1vmin 0;
+  }
+}
+
+footer
+{
+  @extend .cartoon;
+
+  flex: 0 1 auto;
+  padding: 1vmin;
+
+  font-size: 1.75vmin;
+
+}
