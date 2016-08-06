@@ -59,11 +59,14 @@
 	
 	var chart = new LineGraph(ctx);
 	
-	chart.push(40);
-	chart.push(20);
-	chart.push(8);
-	chart.push(3);
-	chart.draw();
+	var x = 100;
+	var percentage = Math.random() - 0.5;
+	
+	setInterval(function () {
+	  x += 10 * (Math.random() - 0.50);
+	  x = Math.max(x, 0);
+	  chart.push(x);
+	}, 50);
 	
 	// alert("HI");
 
@@ -83,32 +86,94 @@
 	    _classCallCheck(this, LineGraph);
 	
 	    this.ctx = ctx;
-	    this.data = [];
+	    this.width = ctx.canvas.width;
+	    this.height = ctx.canvas.height;
+	    this.data = [0];
+	    this.min = 0;
+	    this.max = 1;
+	    console.log(this.Yh);
 	  }
 	
 	  _createClass(LineGraph, [{
 	    key: "push",
 	    value: function push(point) {
 	      this.data.push(point);
-	      console.log("pushing " + point);
-	      if (this.data.length > 20) {
+	      if (this.data.length > this.width / 10) {
 	        this.data.shift();
 	      }
+	      this.draw();
+	    }
+	  }, {
+	    key: "calculateBounds",
+	    value: function calculateBounds() {
+	      var _this = this;
+	
+	      this.min = this.data[0];
+	      this.max = 1;
+	      this.data.forEach(function (x) {
+	        if (x > _this.max) {
+	          _this.max = x;
+	        }
+	        if (x < _this.min) {
+	          _this.min = x;
+	        }
+	      });
+	      this.min -= 5;
+	      this.max += 5;
+	    }
+	  }, {
+	    key: "mapY",
+	    value: function mapY(y) {
+	      var difference = Math.max(this.max - this.min, 1);
+	      return (this.max - y) * this.height / difference;
 	    }
 	  }, {
 	    key: "draw",
 	    value: function draw() {
-	      var _this = this;
+	      this.ctx.clearRect(0, 0, this.width, this.height);
+	      this.calculateBounds();
+	      this.drawRules();
+	      this.drawLines();
+	    }
+	  }, {
+	    key: "drawRules",
+	    value: function drawRules() {
+	      var rule = 0;
+	      var y;
+	      while (rule < this.max) {
+	        if (rule > this.min) {
+	          y = this.mapY(rule);
+	          this.ctx.textAlign = "start";
+	          this.ctx.font = "18pt Inconsolata";
+	          this.ctx.fillText(rule, 0, y);
+	          if (rule === 0) {
+	            console.log(y);
+	            this.ctx.lineWidth = 7;
+	          } else {
+	            this.ctx.lineWidth = 0.5;
+	          }
+	          this.ctx.beginPath();
+	          this.ctx.moveTo(0, y);
+	          this.ctx.lineTo(this.width, y);
+	          this.ctx.stroke();
+	        }
+	        rule += 100;
+	      }
+	    }
+	  }, {
+	    key: "drawLines",
+	    value: function drawLines() {
+	      var _this2 = this;
 	
 	      if (this.data.length > 0) {
-	        var start = this.data[0];
+	        var x, y, difference;
 	        this.ctx.beginPath();
-	        console.log("drawing");
-	        this.ctx.moveTo(0, this.data[0]);
-	        this.data.forEach(function (x, index) {
-	          console.log(index);
-	          console.log(_this.data[index]);
-	          _this.ctx.lineTo(index * 10, _this.data[index]);
+	        this.ctx.lineWidth = 1;
+	        this.data.forEach(function (price, index) {
+	          difference = Math.max(_this2.max - _this2.min, 100);
+	          x = index * 10;
+	          y = _this2.mapY(price);
+	          _this2.ctx.lineTo(index * 10, y);
 	        });
 	        this.ctx.stroke();
 	      }

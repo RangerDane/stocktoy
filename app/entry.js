@@ -10,10 +10,13 @@ sellButton.onclick = alert.bind(null,"sell!");
 
 var chart = new LineGraph( ctx );
 
-chart.push(40);
-chart.push(20);
-chart.push(8);
-chart.push(3);
-chart.draw();
+var x = 100;
+var percentage = Math.random() - 0.5;
+
+setInterval( () => {
+  x += 10 * ( Math.random() - 0.50 );
+  x = Math.max( x, 0 );
+  chart.push( x );
+}, 50);
 
 // alert("HI");
